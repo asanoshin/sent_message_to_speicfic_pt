@@ -38,22 +38,25 @@ def create_table():
 
                 #定義建立資料表的查詢
         create_query = """
-            CREATE TABLE IF NOT EXISTS education_message_coding_table (
+            CREATE TABLE IF NOT EXISTS basic_data_table (
                 serial_id serial NOT NULL,
-                coding text NOT NULL,
-                education_message VARCHAR(255) NOT NULL, -- 改用 VARCHAR
+                name text NOT NULL,
+                birth_day VARCHAR(255) NOT NULL, -- 改用 VARCHAR
+                phone1 VARCHAR(255) NOT NULL, -- 改用 VARCHAR
+                phone2 VARCHAR(255) NOT NULL, -- 改用 VARCHAR
+                personid(255) VARCHAR(255) NOT NULL,
                 PRIMARY KEY (serial_id)
             )
         """
 
         cursor.execute(create_query)
-        print("Create education_message_coding_table successfully.")
+        print("Create basic_data_table successfully.")
         cursor.close()
         conn.close()
-        return "education_message_coding_table created successfully."
+        return "basic_data_table created successfully."
     except Exception as e:
-        print(f"An error occurred while creating the education_message_coding_table: {e}")
-        return f"An error occurred while creating the education_message_coding_table: {e}"
+        print(f"An error occurred while creating the basic_data_table: {e}")
+        return f"An error occurred while creating the basic_data_table: {e}"
     
 @app.route('/upload_basic_data')
 def upload():
@@ -77,8 +80,10 @@ def send_basic_data_file():
             for index, row in df.iterrows():
                 pt_id = row[0]
                 pt_name = row[1]
-                pt_number1 =row[2]
-                pt_number2= row[3]
+                pt_birth_day = row[2]
+                pt_phone1 =row[3]
+                pt_phone2 = row[4]
+                pt_person_id = row [5]
 
             return 'upload basic data'
 
