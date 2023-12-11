@@ -134,6 +134,7 @@ def send_message():
     cursor = conn.cursor()
 
     status_text = "未查询"  # 默认状态
+    phone = '未指定'  # 初始值
     try:
        # 修改 SQL 查詢以選擇 phone1 和 phone2
         query = "SELECT phone1, phone2 FROM basic_data_table1 WHERE pt_id = %s"
