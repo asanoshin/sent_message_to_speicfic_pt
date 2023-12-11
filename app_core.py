@@ -22,6 +22,9 @@ config.read("config.ini")
 handler = WebhookHandler(config.get("line-bot", "channel_secret"))
 line_bot_api = LineBotApi(config.get("line-bot", "channel_access_token"))
 
+
+DATABASE_URL = os.environ["DATABASE_URL"]
+
 @app.route('/')
 def home():
     return render_template('home.html')
