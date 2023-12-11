@@ -12,6 +12,7 @@ from linebot.models import MessageEvent, TextMessage, TextSendMessage, TemplateS
 from linebot.exceptions import LineBotApiError, InvalidSignatureError
 # from models import botTalk, callDatabase, bind_phone
 from urllib.parse import parse_qsl
+from flask_cors import CORS
 
 app = Flask(__name__)
 
@@ -24,6 +25,9 @@ line_bot_api = LineBotApi(config.get("line-bot", "channel_access_token"))
 
 
 DATABASE_URL = os.environ["DATABASE_URL"]
+
+CORS(app)  # 启用 CORS
+received_text = ""
 
 @app.route('/')
 def home():
@@ -124,6 +128,21 @@ user_id = 'U879e3796fbb1185b9654c34152d07ed9'
 
 @app.route('/send_message', methods=['GET', 'POST'])
 def send_message():
+    DATABASE_URL = os.environ["DATABASE_URL"]
+    conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+    cursor = conn.cursor()
+
+    status_text = "未查询"  # 默认状态
+    try:
+        query = "SELECT EXISTS(SELECT 1 FROM CRP_TABLE WHERE child_id = %s)"
+        cursor.execute(query, (received_text,))
+        result = cursor.fetchone()[0]
+        status_text = "已加入" if result else "未加入"
+    except Exception as e:
+        status_text = f"An error occurred: {e}"
+    finally:
+        cursor.close()
+        conn.close()
 
     query_data = select_coding()
     for row in query_data:
@@ -131,6 +150,8 @@ def send_message():
     print(coding_charts)
     
     message_status = None
+
+
     if request.method == 'POST':
         if 'submit_form' in request.form:
             # 處理表單提交
@@ -153,7 +174,8 @@ def send_message():
                            coding_charts=coding_charts,
                            submissions=submissions, 
                            sent_submissions=sent_submissions,
-                           failed_submissions=failed_submissions)
+                           failed_submissions=failed_submissions,
+                           text=received_text, status_text=status_text)
 
 
 
@@ -307,7 +329,19 @@ def renew_education_message_coding_table(coding, education_message):
         print("education_message_coding_table renewed successfully.")
     except Exception as e:
         print(f"An error occurred while inserting or truncating data: {e}")
+# -------------get message
 
+@app.route('/get_message', methods=['POST'])
+  
+def get_message():
+    global received_text
+    text = request.form.get('text')
+    if text:
+        received_text = text  # 存储文本
+        print("接收到的文本:", text)
+        return "文本接收成功", 200
+    else:
+        return "无文本接收", 400
 
 if __name__ == '__main__':
     app.run(debug=True)

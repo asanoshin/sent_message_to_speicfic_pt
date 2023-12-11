@@ -8,6 +8,14 @@
 </head>
 <body>
     <h1>歡迎來到我的網站</h1>
+    {% if text %}
+        <p>Received Text: {{ text }}</p>
+    {% else %}
+        <p>No text received yet.</p>
+    {% endif %}
+    {% if status_text %}
+        <p>Status: {{ status_text }}</p>
+    {% endif %}
     <div class="col-6"></div>
         <!-- 將表單的 action 改為 /send_message -->
         <!-- <form action="/send_message" method="post">
