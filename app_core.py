@@ -79,7 +79,7 @@ def send_basic_data_file():
             return redirect(url_for('index'))
 
         if file:
-            df = pd.read_csv(file, encoding='big5')
+            df = pd.read_csv(file, encoding='ISO-8859-1')
             for index, row in df.iterrows():
                 pt_id = row[0]
                 pt_name = row[1]
