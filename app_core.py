@@ -145,13 +145,13 @@ def send_message():
         # 根據查詢結果設置狀態文本和電話資訊
         if query_data:
             status_text = "已加入"
-            phone_text = query_data[0]
+            phone = query_data[0]
             # phone_text = query_data[0], query_data[1]
             # phone = ', '.join(filter(None, phone_text)) if phone_text else 'x'
         else:
             status_text = "未加入"
-            # phone_text = None, None
-            phone_text = None
+            # phone = None, None
+            phone = None
         
     except Exception as e:
         status_text = f"An error occurred: {e}"
