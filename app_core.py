@@ -16,6 +16,13 @@ from urllib.parse import parse_qsl
 
 app = Flask(__name__)
 
+
+config = configparser.ConfigParser()
+config.read("config.ini")
+
+handler = WebhookHandler(config.get("line-bot", "channel_secret"))
+line_bot_api = LineBotApi(config.get("line-bot", "channel_access_token"))
+
 @app.route('/')
 def home():
     return render_template('home.html')
