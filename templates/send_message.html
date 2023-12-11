@@ -16,6 +16,9 @@
     {% if status_text %}
         <p>Status: {{ status_text }}</p>
     {% endif %}
+    {% if phone_text %}
+    <p>電話號碼: {{ phone_text }}</p>
+    {% endif %} 
     <div class="col-6"></div>
         <!-- 將表單的 action 改為 /send_message -->
         <!-- <form action="/send_message" method="post">

@@ -28,6 +28,7 @@ DATABASE_URL = os.environ["DATABASE_URL"]
 
 CORS(app)  # 启用 CORS
 received_text = "000000"
+phone_text =""
 
 @app.route('/')
 def home():
@@ -134,10 +135,19 @@ def send_message():
 
     status_text = "未查询"  # 默认状态
     try:
-        query = "SELECT EXISTS(SELECT 1 FROM basic_data_table1 WHERE pt_id = %s)"
+       # 修改 SQL 查詢以選擇 phone1 和 phone2
+        query = "SELECT phone1, phone2 FROM basic_data_table1 WHERE pt_id = %s"
         cursor.execute(query, (received_text,))
-        result = cursor.fetchone()[0]
-        status_text = "已加入" if result else "未加入"
+        query_data = cursor.fetchone()
+
+        # 根據查詢結果設置狀態文本和電話資訊
+        if query_data:
+            status_text = "已加入"
+            phone_text = query_data[0], query_data[1]
+        else:
+            status_text = "未加入"
+            phone_text = None, None
+        
     except Exception as e:
         status_text = f"An error occurred: {e}"
     finally:
@@ -175,7 +185,7 @@ def send_message():
                            submissions=submissions, 
                            sent_submissions=sent_submissions,
                            failed_submissions=failed_submissions,
-                           text=received_text, status_text=status_text)
+                           text=received_text, status_text=status_text, phone_text = phone_text)
 
 
 
