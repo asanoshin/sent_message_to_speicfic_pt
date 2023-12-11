@@ -81,13 +81,11 @@ def send_basic_data_file():
         if file:
             df = pd.read_csv(file, encoding='ISO-8859-1')
             for index, row in df.iterrows():
-                pt_id = row[0]
-                pt_name = row[1]
-                pt_birth_day = row[2]
-                pt_phone1 =row[3]
-                pt_phone2 = row[4]
-                pt_person_id = row [5]
-
+                pt_name = row.iloc[1]
+                pt_birth_day = row.iloc[2]
+                pt_phone1 = row.iloc[3]
+                pt_phone2 = row.iloc[4]
+                pt_person_id = row.iloc[5]
             return 'upload basic data'
 
         return 'Upload basic data error'
