@@ -134,7 +134,7 @@ def send_message():
 
     status_text = "未查询"  # 默认状态
     try:
-        query = "SELECT EXISTS(SELECT 1 FROM CRP_TABLE WHERE child_id = %s)"
+        query = "SELECT EXISTS(SELECT 1 FROM basic_data_table1 WHERE pt_id = %s)"
         cursor.execute(query, (received_text,))
         result = cursor.fetchone()[0]
         status_text = "已加入" if result else "未加入"
