@@ -1,5 +1,4 @@
 from flask import Flask, render_template
-from __future__ import unicode_literals
 import os
 import configparser
 import threading
