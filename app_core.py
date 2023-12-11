@@ -27,7 +27,7 @@ line_bot_api = LineBotApi(config.get("line-bot", "channel_access_token"))
 DATABASE_URL = os.environ["DATABASE_URL"]
 
 CORS(app)  # 启用 CORS
-received_text = ""
+received_text = "000000"
 
 @app.route('/')
 def home():
