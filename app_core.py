@@ -107,7 +107,7 @@ def insert_basic_data(pt_id, pt_name, pt_birth_day, pt_phone1, pt_phone2, pt_per
         cursor = conn.cursor()
 
         # 使用參數化查詢來插入資料
-        insert_query = "INSERT INTO basic_data_table1 (pt_id, name, birth_day, phone1, phone2, personid) VALUES (%s, %s, %s, %s, %s, %s)"
+        insert_query = "INSERT INTO basic_data_table1 (pt_id, name, birth_day, phone1, personid) VALUES (%s, %s, %s, %s, %s)"
         cursor.execute(insert_query, (pt_id, pt_name, pt_birth_day, pt_phone1, pt_phone2, pt_person_id))
 
         cursor.close()
@@ -137,6 +137,7 @@ def send_message():
     phone = '未指定'  # 初始值
     try:
        # 修改 SQL 查詢以選擇 phone1 和 phone2
+        # query = "SELECT phone1, phone2 FROM basic_data_table1 WHERE pt_id = %s"
         query = "SELECT phone1, phone2 FROM basic_data_table1 WHERE pt_id = %s"
         cursor.execute(query, (received_text,))
         query_data = cursor.fetchone()
@@ -144,11 +145,13 @@ def send_message():
         # 根據查詢結果設置狀態文本和電話資訊
         if query_data:
             status_text = "已加入"
-            phone_text = query_data[0], query_data[1]
-            phone = ', '.join(filter(None, phone_text)) if phone_text else 'x'
+            phone_text = query_data[0]
+            # phone_text = query_data[0], query_data[1]
+            # phone = ', '.join(filter(None, phone_text)) if phone_text else 'x'
         else:
             status_text = "未加入"
-            phone_text = None, None
+            # phone_text = None, None
+            phone_text = None
         
     except Exception as e:
         status_text = f"An error occurred: {e}"
