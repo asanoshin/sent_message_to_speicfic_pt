@@ -47,7 +47,7 @@ def create_table():
                 birth_day VARCHAR(255) NOT NULL, -- 改用 VARCHAR
                 phone1 VARCHAR(255) NOT NULL, -- 改用 VARCHAR
                 phone2 VARCHAR(255) NOT NULL, -- 改用 VARCHAR
-                personid(255) VARCHAR(255) NOT NULL,
+                personid VARCHAR(255) NOT NULL,
                 PRIMARY KEY (serial_id)
             )
         """
