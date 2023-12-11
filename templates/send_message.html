@@ -17,11 +17,9 @@
     <p>Status: {{ status_text }}</p>
     {% endif %}
         <form action="/send_message" method="post">
-        <p>電話號碼: <input type="text" id="phone" name="phone" value="{{ phone }}"></p>
-        {% if phone_text %}
-            <p>{{ phone_text }}</p>
+        {% if phone %}
+            <p>電話號碼: <input type="text" id="phone" name="phone" value="{{ phone }}"></p>
         {% endif %}
-        </form>
         <label for="message">訊息:</label><br>
         <textarea id="message" name="option"></textarea><br>
         <input type="submit" name="submit_form" value="確定">
