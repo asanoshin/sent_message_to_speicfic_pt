@@ -30,7 +30,6 @@ def home():
     return render_template('home.html')
 
 
-@app.route('/create')
 def create_table():
     """在資料庫中建立資料表"""
     try:
@@ -38,28 +37,27 @@ def create_table():
         conn.autocommit = True
         cursor = conn.cursor()
 
-
-                #定義建立資料表的查詢
+        # 定義建立資料表的查詢
         create_query = """
-            CREATE TABLE IF NOT EXISTS basic_data_table (
+            CREATE TABLE IF NOT EXISTS basic_data_table1 (
                 serial_id serial NOT NULL,
+                pt_id integer NOT NULL,
                 name text NOT NULL,
-                birth_day VARCHAR(255) NOT NULL, -- 改用 VARCHAR
-                phone1 VARCHAR(255) NOT NULL, -- 改用 VARCHAR
-                phone2 VARCHAR(255) NOT NULL, -- 改用 VARCHAR
+                birth_day VARCHAR(255) NOT NULL,
+                phone1 VARCHAR(255) NOT NULL,
+                phone2 VARCHAR(255) NOT NULL,
                 personid VARCHAR(255) NOT NULL,
                 PRIMARY KEY (serial_id)
             )
         """
-
         cursor.execute(create_query)
-        print("Create basic_data_table successfully.")
         cursor.close()
         conn.close()
-        return "basic_data_table created successfully."
+        print("Table basic_data_table1 created successfully.")
+        return "Table basic_data_table1 created successfully."
     except Exception as e:
-        print(f"An error occurred while creating the basic_data_table: {e}")
-        return f"An error occurred while creating the basic_data_table: {e}"
+        print(f"An error occurred while creating the table basic_data_table1: {e}")
+        return f"An error occurred while creating the table basic_data_table1: {e}"
     
 @app.route('/upload_basic_data')
 def upload():
@@ -81,11 +79,13 @@ def send_basic_data_file():
         if file:
             df = pd.read_csv(file, encoding='ISO-8859-1')
             for index, row in df.iterrows():
+                pt_id = row.iloc[0]
                 pt_name = row.iloc[1]
                 pt_birth_day = row.iloc[2]
                 pt_phone1 = row.iloc[3]
                 pt_phone2 = row.iloc[4]
                 pt_person_id = row.iloc[5]
+                insert_basic_data(pt_id, pt_name, pt_birth_day, pt_phone1, pt_phone2, pt_person_id)   
             return 'upload basic data'
 
         return 'Upload basic data error'
@@ -93,8 +93,23 @@ def send_basic_data_file():
         # 打印錯誤信息到控制台，或考慮使用日誌記錄
         print(f"Error when upload basic data: {e}")
         return str(e)
+    
+def insert_basic_data(pt_id, pt_name, pt_birth_day, pt_phone1, pt_phone2, pt_person_id):
+    """在資料庫中插入一筆basic data資料"""
+    try:
+        conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+        conn.autocommit = True
+        cursor = conn.cursor()
 
+        # 使用參數化查詢來插入資料
+        insert_query = "INSERT INTO basic_data_table1 (pt_id, name, birth_day, phone1, phone2, personid) VALUES (%s, %s, %s, %s, %s, %s)"
+        cursor.execute(insert_query, (pt_id, pt_name, pt_birth_day, pt_phone1, pt_phone2, pt_person_id))
 
+        cursor.close()
+        conn.close()
+        print("Data inserted into basic_data_table1 successfully.")
+    except Exception as e:
+        print(f"An error occurred while inserting data into basic_data_table1: {e}")
 
 
 #-------------------------以下是衛教訊息傳送
