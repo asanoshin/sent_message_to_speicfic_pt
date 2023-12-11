@@ -144,6 +144,7 @@ def send_message():
         if query_data:
             status_text = "已加入"
             phone_text = query_data[0], query_data[1]
+            phone = ', '.join(filter(None, phone_text)) if phone_text else 'x'
         else:
             status_text = "未加入"
             phone_text = None, None
@@ -185,7 +186,7 @@ def send_message():
                            submissions=submissions, 
                            sent_submissions=sent_submissions,
                            failed_submissions=failed_submissions,
-                           text=received_text, status_text=status_text, phone_text = phone_text)
+                           text=received_text, status_text=status_text, phone = phone)
 
 
 

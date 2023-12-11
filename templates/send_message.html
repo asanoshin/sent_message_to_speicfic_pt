@@ -14,25 +14,17 @@
         <p>No text received yet.</p>
     {% endif %}
     {% if status_text %}
-        <p>Status: {{ status_text }}</p>
+    <p>Status: {{ status_text }}</p>
     {% endif %}
-    {% if phone_text %}
-    <p>電話號碼: {{ phone_text }}</p>
-    {% endif %} 
-    <!-- <div class="col-6"></div>
         <form action="/send_message" method="post">
-            <label for="phone">電話號碼:</label>
-            <input type="text" id="phone" name="phone"><br><br>
-
-            <label for="option">選擇一項:</label>
-            <select name="option" id="option">
-                {% for coding in coding_charts %}
-                    <option value="{{ coding }}">{{ coding }}</option>
-                {% endfor %}
-            </select><br><br> --> -->
-            <!-- <label for="message">訊息:</label><br>
-            <textarea id="message" name="option"></textarea><br>
-            <input type="submit" name="submit_form" value="確定">
+        <p>電話號碼: <input type="text" id="phone" name="phone" value="{{ phone }}"></p>
+        {% if phone_text %}
+            <p>{{ phone_text }}</p>
+        {% endif %}
+        </form>
+        <label for="message">訊息:</label><br>
+        <textarea id="message" name="option"></textarea><br>
+        <input type="submit" name="submit_form" value="確定">
         </form>
         
         <h2>提交成功清單</h2>
