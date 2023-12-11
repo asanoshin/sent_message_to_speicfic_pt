@@ -29,7 +29,7 @@ DATABASE_URL = os.environ["DATABASE_URL"]
 def home():
     return render_template('home.html')
 
-
+@app.route('/create')
 def create_table():
     """在資料庫中建立資料表"""
     try:
