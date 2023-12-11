@@ -79,11 +79,13 @@
         <p>Status: {{ status_text }}</p>
     {% endif %}
     <div class="col-6"></div>
-            <form action="/send_message" method="post">            
+            <form action="/send_message" method="post">
+                <label for="phone">電話號碼:</label>
+            
                 {% if phone_test %}
                     <!-- 使用 phone_test[0] 和 phone_test[1] 顯示電話號碼 -->
                     <input type="text" id="phone_test" name="phone" value="{{ phone_test[0] }} 或 {{ phone_test[1] }}"><br><br>
-                    <p>電話號碼: {{ phone_test[0] }} 或 {{ phone_test[1] }}</p>
+                    <p>{{ phone_test[0] }} 或 {{ phone_test[1] }}</p>
                 {% endif %} 
             
                 <label for="message">訊息:</label><br>
