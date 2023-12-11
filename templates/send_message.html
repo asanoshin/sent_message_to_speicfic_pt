@@ -78,20 +78,18 @@
     {% if status_text %}
         <p>Status: {{ status_text }}</p>
     {% endif %}
-    <div class="col-6"></div>
-            <form action="/send_message" method="post">
-                <label for="phone">電話號碼:</label>
-            
-                {% if phone_test %}
-                    <!-- 使用 phone_test[0] 和 phone_test[1] 顯示電話號碼 -->
-                    <input type="text" id="phone_test" name="phone" value="{{ phone_test[0] }} 或 {{ phone_test[1] }}"><br><br>
-                    <p>{{ phone_test[0] }} 或 {{ phone_test[1] }}</p>
-                {% endif %} 
-            
-                <label for="message">訊息:</label><br>
-                <textarea id="message" name="option"></textarea><br>
-                <input type="submit" name="submit_form" value="確定">
-            </form>
+        <form action="/send_message" method="post">
+            {% if phone_test %}
+                <!-- 使用 phone_test[0] 和 phone_test[1] 顯示電話號碼 -->
+                <input type="text" id="phone_test" name="phone" value="{{ phone_test[0] }} 或 {{ phone_test[1] }}"><br><br>
+                <p>電話號碼: {{ phone_test[0] }} 或 {{ phone_test[1] }}</p>
+            {% endif %} 
+        
+            <label for="message">訊息:</label><br>
+            <textarea id="message" name="option"></textarea><br>
+            <input type="submit" name="submit_form" value="確定">
+        </form>
+        
 
         
         <h2>提交成功清單</h2>
