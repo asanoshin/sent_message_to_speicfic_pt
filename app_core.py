@@ -1,4 +1,18 @@
 from flask import Flask, render_template
+from __future__ import unicode_literals
+import os
+import configparser
+import threading
+import psycopg2
+from flask import Flask, abort, redirect, render_template, request, url_for, flash, Response
+from flask_httpauth import HTTPBasicAuth
+from flask_socketio import SocketIO, emit, send
+import pandas as pd
+from linebot import LineBotApi, WebhookHandler
+from linebot.models import MessageEvent, TextMessage, TextSendMessage, TemplateSendMessage, ButtonsTemplate, URITemplateAction, ConfirmTemplate, PostbackEvent, PostbackTemplateAction
+from linebot.exceptions import LineBotApiError, InvalidSignatureError
+# from models import botTalk, callDatabase, bind_phone
+from urllib.parse import parse_qsl
 
 app = Flask(__name__)
 

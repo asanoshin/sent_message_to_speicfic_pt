@@ -1,11 +1,64 @@
+
+
+
 <!DOCTYPE html>
 <html>
 <head>
-    <title>關於</title>
+    <title>首頁</title>
 </head>
 <body>
-    <h1>關於我們</h1>
-    <p>這裡是關於頁面的內容。</p>
-    <a href="/">回到首頁</a>
+    <h1>歡迎來到我的網站</h1>
+    <div class="col-6"></div>
+        <!-- 將表單的 action 改為 /send_message -->
+        <!-- <form action="/send_message" method="post">
+            <label for="phone">電話號碼:</label>
+            <input type="text" id="phone" name="phone"><br><br>
+
+            <label for="option">選擇一項:</label>
+            <select name="option" id="option">
+                <option value="腸病毒">腸病毒</option>
+                <option value="吸藥輔助器">吸藥輔助器</option>
+                <option value="退燒衛教">退燒衛教</option>
+                <option value="中耳炎">中耳炎</option>
+                <option value="氣喘">氣喘</option>
+                <option value="鼻噴劑衛教">鼻噴劑衛教</option>
+            </select><br><br>
+
+            <input type="submit" name="submit_form" value="確定">
+        </form> -->
+        <form action="/send_message" method="post">
+            <label for="phone">電話號碼:</label>
+            <input type="text" id="phone" name="phone"><br><br>
+
+            <!-- <label for="option">選擇一項:</label>
+            <select name="option" id="option">
+                {% for coding in coding_charts %}
+                    <option value="{{ coding }}">{{ coding }}</option>
+                {% endfor %}
+            </select><br><br> -->
+            <label for="message">訊息:</label><br>
+            <textarea id="message" name="option"></textarea><br>
+            <input type="submit" name="submit_form" value="確定">
+        </form>
+        
+        <h2>提交成功清單</h2>
+        <ul>
+            {% for submission in submissions %}
+                <li>
+                    {{ submission }}
+                    <form action="/send_message" method="post" style="display: inline;">
+                        <input type="hidden" name="send" value="{{ submission }}">
+                        <input type="submit" name="submit_form2" value="送出">
+                    </form>
+                    {% if submission in sent_submissions %}
+                        已寄出
+                    {% elif submission in failed_submissions %}
+                        {{ failed_submissions[submission] }}
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
 </body>
 </html>
